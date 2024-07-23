@@ -21,7 +21,7 @@ class FamilyStructure:
     #addMember
     def add_member(self, member):
         # 
-           if 'id' not in member or not member['id']:
+           if 'id' not in member:
             member['id'] = self._generateId()
            if 'last_name' not in member:
             member['last_name'] = "Jackson"
