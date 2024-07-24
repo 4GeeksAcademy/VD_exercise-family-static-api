@@ -15,22 +15,6 @@ CORS(app)
 # create the jackson family object
 jackson_family = FamilyStructure("Jackson")
 
-jackson_family.add_member({
-    "first_name": "John",
-    "age": 33,
-    "lucky_numbers": [7, 13, 22]
-})
-jackson_family.add_member({
-    "first_name": "Jane",
-    "age": 35,
-    "lucky_numbers": [10, 14, 3]
-})
-jackson_family.add_member({
-    "first_name": "Jimmy",
-    "age": 5,
-    "lucky_numbers": [1]
-})
-
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -44,8 +28,33 @@ def sitemap():
 # generate getAllmembers endpoints
 @app.route('/members', methods=['GET'])
 def handle_hello():
+ # this is how you can use the Family datastructure by calling its methods
+    
+    John ={
+        
+        "first_name": "John",
+        "age": 33,
+        "lucky_numbers": [7, 13, 22]
+    }
 
-    # this is how you can use the Family datastructure by calling its methods
+    Jane = {
+        
+        "first_name": "Jane",
+        "age": 35,
+        "lucky_numbers": [10, 14, 3]
+    }
+
+    Jimmy = {
+    
+    "first_name": "Jimmy",
+    "age": 5,
+    "lucky_numbers": [1]
+    }
+
+    jackson_family.add_member(John)
+    jackson_family.add_member(Jane)
+    jackson_family.add_member(Jimmy)
+    
     members = jackson_family.get_all_members()
     
     if members:
@@ -99,9 +108,9 @@ def delete_member(id):
 
     capture_delete_member= jackson_family.delete_member(id)  
     if capture_delete_member:
-        return jsonify({"mensaje":"miembro eliminado", "miembo": capture_delete_member}),200
+        return jsonify({"done":True}),200
     else:
-        return jsonify({"error":"No se puede eliminar,porque nose encontro al miembro"}), 400
+        return jsonify({"done":False}), 400
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
